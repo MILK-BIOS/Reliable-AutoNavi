@@ -5,5 +5,4 @@ nohup.out
 *.jpg
 *.pt
 model/
-agents/
 *.pyc
