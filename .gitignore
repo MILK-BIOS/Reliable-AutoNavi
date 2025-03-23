@@ -1,0 +1,9 @@
+datasets/
+runs/
+__pycache__/
+nohup.out
+*.jpg
+*.pt
+model/
+agents/
+*.pyc

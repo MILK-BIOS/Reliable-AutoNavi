@@ -24,7 +24,7 @@ from typing import Literal
 
 class Router(Runnable):
     def __init__(self, agents_list):
-        self.llm = OllamaLLM(model="deepseek-r1:70b", base_url="http://localhost:11434")
+        self.llm = OllamaLLM(model="deepseek-r1:32b", base_url="http://localhost:11434")
         self.prompt = ChatPromptTemplate.from_messages([
             ("system", """
             你现在是工作的Router，你需要调用其他Agents完成指令，可用Agents列表：
@@ -46,6 +46,7 @@ class Router(Runnable):
         )
 
     def invoke(self, state: State, *args, **kwargs):
+        print("--------Router Working--------")
         response = self.chain.invoke({"input":state["messages"][-1], "history":state["messages"][-3:-1]})
         print("Handoff to agent: ", response["next_agent"])
-        return Command(goto=response["next_agent"], update={"messages": [response["content"]]})
+        return Command(goto=response["next_agent"], update={"messages": [{"role": "assistant", "content": response["content"]}]})

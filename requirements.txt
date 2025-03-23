@@ -1,0 +1,6 @@
+ultralytics
+fastapi
+langchain
+langchain-community
+langchain-ollama
+langgraph

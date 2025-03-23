@@ -23,7 +23,7 @@ class Navigator(Runnable):
             """),
             ("human", "当前输入：{input}"),
         ])
-        self.llm = OllamaLLM(model="deepseek-r1:70b", base_url="http://localhost:11434")
+        self.llm = OllamaLLM(model="deepseek-r1:7b", base_url="http://localhost:11434")
         self.chain = (
             self.prompt
             | self.llm
@@ -60,6 +60,7 @@ class Navigator(Runnable):
             return None
         
     def invoke(self, state: State, *args, **kwargs):
+        print("--------Navigator Working--------")
         inputs = self.chain.invoke({"input":state["messages"][-1]})
         origin = inputs["origin"]
         destination = inputs["destination"]

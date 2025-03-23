@@ -2,6 +2,7 @@ from rich.console import Console
 from rich.table import Table
 from langchain_core.runnables import Runnable
 from langgraph.types import Command
+from langgraph.graph import END
 from .utils import State
 
 
@@ -16,6 +17,7 @@ class Printer(Runnable):
         self.printer.print(message)
 
     def invoke(self, state: State, *args, **kwargs):
+        print("--------Printer Working--------")
         message = state["messages"][-1]
         content_data = message.content[0]
         if 'steps' in content_data:
@@ -36,4 +38,4 @@ class Printer(Runnable):
             console.print(table)
         else:
             print(message.content)
-        return Command(goto="router", update={"messages": ["Printer invoked"]})
+        return Command(goto=END, update={"messages": ["Printer invoked"]})
