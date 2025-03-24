@@ -1,6 +1,9 @@
 ultralytics
 fastapi
 langchain
-langchain-community
-langchain-ollama
+langchain_community
+langchain_google_community
+langchain_ollama
 langgraph
+rich
+uvicorn

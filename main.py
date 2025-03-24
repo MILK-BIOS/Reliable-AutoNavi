@@ -64,5 +64,16 @@ def chat(request: ChatRequest):
 def read_root():
     return {"Hello": "World"}
 
-stream_graph_updates()# 我要从集悦城A区导航至深圳湾公园
+if __name__ == "__main__":
+    # stream_graph_updates()# 我要从集悦城A区导航至深圳湾公园 
+    import uvicorn
+    uvicorn.run(
+        "main:app",  # 模块路径（字符串形式）
+        host="0.0.0.0",
+        port=9543,
+        reload=True,    # ⚠️ 注意：编程式调用不支持 reload 参数
+        workers=1,      # 进程数（生产环境推荐）
+        log_level="info",
+        access_log=False # 禁用访问日志
+    )
     
