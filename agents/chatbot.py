@@ -22,6 +22,7 @@ from langgraph.types import Command, interrupt
 from langgraph.prebuilt import ToolNode, tools_condition
 
 
+
 os.environ["BING_SUBSCRIPTION_KEY"] = "686d2128-1300-4586-9f55-240c7846af25"
 os.environ["BING_SEARCH_URL"] = "https://api.bing.microsoft.com/v7.0/search"
 os.environ["GOOGLE_CSE_ID"] = "428c301505bfc454d"
@@ -36,7 +37,6 @@ class State(TypedDict):
 
 class BasicToolNode:
     """A node that runs the tools requested in the last AIMessage."""
-
     def __init__(self, tools: list) -> None:
         self.tools_by_name = {tool.name: tool for tool in tools}
 

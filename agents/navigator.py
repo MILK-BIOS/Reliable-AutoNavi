@@ -22,6 +22,7 @@ class Navigator(Runnable):
             }}
             """),
             ("human", "当前输入：{input}"),
+            ("system", "Current Location: {current_address}"),
         ])
         self.llm = OllamaLLM(model="deepseek-r1:7b", base_url="http://localhost:11434")
         self.chain = (
@@ -61,10 +62,13 @@ class Navigator(Runnable):
         
     def invoke(self, state: State, *args, **kwargs):
         print("--------Navigator Working--------")
-        inputs = self.chain.invoke({"input":state["messages"][-1]})
+        inputs = self.chain.invoke({"input":state["messages"][-1], "current_address": state["current_address"]})
         origin = inputs["origin"]
         destination = inputs["destination"]
-        origin_location = self.geocode(origin, self.api_key)
+        if state["latitude"] and state["longitude"]:
+            origin_location = f"{state['longitude']},{state['latitude']}"
+        else:
+            origin_location = self.geocode(origin, self.api_key)
         destination_location = self.geocode(destination, self.api_key)
         if origin_location and destination_location:
             print(f"起点经纬度: {origin_location}")

@@ -30,6 +30,7 @@ class Router(Runnable):
             你现在是工作的Router，你需要调用其他Agents完成指令，可用Agents列表：
             {agents_list}
             请注意,ATTENTION!必须严格按以下JSON格式响应，将下一个Agent必要的信息写到content中：
+            若无需调用Agent，则在next_agent中使用printer
             ```json{{
                 "role": "assistant", (Must have)
                 "content": "回答内容", (Must have)
@@ -49,4 +50,6 @@ class Router(Runnable):
         print("--------Router Working--------")
         response = self.chain.invoke({"input":state["messages"][-1], "history":state["messages"][-3:-1]})
         print("Handoff to agent: ", response["next_agent"])
-        return Command(goto=response["next_agent"], update={"messages": [{"role": "assistant", "content": response["content"]}]})
+        return Command(goto=response["next_agent"], update={
+            "messages": [{"role": "assistant", "content": response["content"]}],
+        })
